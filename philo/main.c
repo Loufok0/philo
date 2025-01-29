@@ -6,7 +6,7 @@
 /*   By: malapoug <malapoug@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 15:06:14 by malapoug          #+#    #+#             */
-/*   Updated: 2025/01/29 12:43:01 by malapoug         ###   ########.fr       */
+/*   Updated: 2025/01/29 16:26:05 by malapoug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,46 @@ long	get_timestamp(void)
 	return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
 }
 
+void	*monitor(void *arg)
+{
+	t_philo			*philo;
+	t_philosopher	*curr;
+	long			current_time;
+
+	philo = (t_philo *)arg;
+	while (1)
+	{
+		curr = philo->head;
+		while (curr)
+		{
+			current_time = get_timestamp();
+			if (current_time - curr->last_t_eat > philo->t_die)
+			{
+				printf("%ld %d died\n", current_time, curr->id);
+				philo->stop = 1;
+				return (NULL);
+			}
+			curr = curr->next;
+		}
+		usleep(1000);
+	}
+	return (NULL);
+}
+
+void	lock_mutex(t_philosopher *philo)
+{
+	if (philo->id % 2 == 0)
+	{
+		pthread_mutex_lock(&(philo->prev->fork));
+		pthread_mutex_lock(&(philo->fork));
+	}
+	else
+	{
+		usleep(100);
+		pthread_mutex_lock(&(philo->fork));
+		pthread_mutex_lock(&(philo->prev->fork));
+	}
+}
 
 void	*routine(void *arg)
 {
@@ -49,18 +89,10 @@ void	*routine(void *arg)
 	philo = (t_philosopher *)arg;
 	while (philo->philo->stop != 1)
 	{
-		if (philo->id % 2 == 0)
-			pthread_mutex_lock(&(philo->prev->fork));
-		if (philo->id % 2 == 0)
-			pthread_mutex_lock(&(philo->fork));
-		else
-		{
-			usleep(100);
-			pthread_mutex_lock(&(philo->fork));
-			pthread_mutex_lock(&(philo->prev->fork));
-		}
+		lock_mutex(philo);
 		printf("%ld %d has taken a fork\n", get_timestamp(), philo->id);
 		printf("%ld %d is eating\n", get_timestamp(), philo->id);
+		philo->last_t_eat = get_timestamp();
 		usleep(philo->philo->t_sleep);
 		pthread_mutex_unlock(&(philo->prev->fork));
 		pthread_mutex_unlock(&(philo->fork));
@@ -71,25 +103,43 @@ void	*routine(void *arg)
 	return (NULL);
 }
 
+int	create_threads(t_philo *philo, t_philosopher *head)
+{
+	if (pthread_create(&(philo->monitor), NULL, monitor, head) != 0)
+			return (printf(RED "Error: monitor's pthread_create failed!\n" RESET), 0);
+
+	while (head)
+	{
+		if (pthread_create(&(head->thread), NULL, routine, head) != 0)
+			return (printf(RED "Error: pthread_create failed!\n" RESET), 0);
+		head = head->next;
+	}
+	return (1);
+}
+
+int	join_threads(t_philo *philo, t_philosopher *head)
+{
+	if (pthread_join(philo->monitor, NULL) != 0)
+			return (printf(RED "Error: monitor's pthread_join failed!\n" RESET), 0);
+
+	while (head)
+	{
+		if (pthread_join(head->thread, NULL) != 0)
+			return (printf(RED "Error: pthread_join failed!\n" RESET), 0);
+		head = head->next;
+	}
+	return (1);
+}
+
 int	process(t_philo *philo)
 {
 	t_philosopher	*curr;
 
 	curr = philo->head;
-	while (curr)
-	{
-		if (pthread_create(&(curr->thread), NULL, routine, curr) != 0)
-			return (printf(RED "Error: pthread_create failed\n" RESET), 0);
-		curr = curr->next;
-	}
-	curr = philo->head;
-	while (curr)
-	{
-		if (pthread_join(curr->thread, NULL) != 0)
-			return (printf(RED "Error: pthread_join failed\n" RESET), 0);
-		curr = curr->next;
-	}
-	curr = philo->head;
+	if (!create_threads(philo, curr))
+			return (0);
+	if (!join_threads(philo, curr))
+			return (0);
 	while (curr)
 	{
 		pthread_mutex_destroy(&(curr->fork));

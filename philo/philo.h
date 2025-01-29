@@ -6,7 +6,7 @@
 /*   By: malapoug <malapoug@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 15:06:52 by malapoug          #+#    #+#             */
-/*   Updated: 2025/01/29 12:42:27 by malapoug         ###   ########.fr       */
+/*   Updated: 2025/01/29 15:42:53 by malapoug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 
 typedef struct s_philo
 {
+	pthread_t	monitor;
 	void	*head;
 	unsigned int	n_philo;
 	unsigned long long int	t_die;
