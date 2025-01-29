@@ -6,7 +6,7 @@
 /*   By: malapoug <malapoug@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 14:47:11 by malapoug          #+#    #+#             */
-/*   Updated: 2025/01/27 16:41:55 by malapoug         ###   ########.fr       */
+/*   Updated: 2025/01/29 12:42:10 by malapoug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,3 +24,17 @@ void	show_philo(t_philo philo)
 	printf("o-----------------------------------------------o\n");
 }
 
+void	print_philosophers(t_philosopher *head)
+{
+	t_philosopher	*curr = head;
+
+	printf("Philosophers list:\n");
+	do
+	{
+		printf("Philosopher %d, prev: %d, next: %d\n",
+			curr->id,
+			curr->prev ? curr->prev->id : -1,
+			curr->next ? curr->next->id : -1);
+		curr = curr->next;
+	} while (curr && curr != head);
+}

@@ -6,7 +6,7 @@
 /*   By: malapoug <malapoug@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 15:06:52 by malapoug          #+#    #+#             */
-/*   Updated: 2025/01/28 15:59:20 by malapoug         ###   ########.fr       */
+/*   Updated: 2025/01/29 12:42:27 by malapoug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,20 @@
 
 //====================(STRUCTS)=============================//
 
+typedef struct s_philo
+{
+	void	*head;
+	unsigned int	n_philo;
+	unsigned long long int	t_die;
+	unsigned long long int	t_eat;
+	unsigned long long int	t_sleep;
+	unsigned long long int	n_eat;
+	int			stop;
+} 	t_philo;
+
 typedef struct s_philosopher
 {
+	t_philo *philo;
 	int	id;
 	pthread_t	thread;
 	pthread_mutex_t		fork;
@@ -33,21 +45,13 @@ typedef struct s_philosopher
 	unsigned long long int	last_t_eat;
 } 	t_philosopher;
 
-typedef struct s_philo
-{
-	t_philosopher	*philosophers;
-	unsigned int	n_philo;
-	unsigned long long int	t_die;
-	unsigned long long int	t_eat;
-	unsigned long long int	t_sleep;
-	unsigned long long int	n_eat;
-} 	t_philo;
-
 //====================(DECLARATIONS)========================//
 //utils
 long long int	ft_atolli(const char *str);
 int	count_occ(char *str, int c);
 int	total_occ(char **split, int c);
+int	is_number(char *str);
+long	get_timestamp(void);
 
 //philo_init
 int	init_philo(t_philo *philos, char **av);
@@ -55,5 +59,6 @@ int	init_philosophers(t_philo *philo);
 
 //debug
 void	show_philo(t_philo philo);
+void	print_philosophers(t_philosopher *head);
 
 #endif
