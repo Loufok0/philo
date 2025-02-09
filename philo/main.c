@@ -6,7 +6,7 @@
 /*   By: malapoug <malapoug@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 15:06:14 by malapoug          #+#    #+#             */
-/*   Updated: 2025/02/09 15:36:33 by malapoug         ###   ########.fr       */
+/*   Updated: 2025/02/09 18:06:23 by malapoug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,9 @@ void	lock_mutex(t_philosopher *philo)
 	if (philo->id % 2 == 0)
 	{
 		pthread_mutex_lock(&(philo->prev->fork));
+		printf("%ld %d has taken a fork\n", get_timestamp(), philo->id);
 		pthread_mutex_lock(&(philo->fork));
+		printf("%ld %d has taken a fork\n", get_timestamp(), philo->id);
 	}
 	else
 	{
@@ -95,12 +97,11 @@ void	*routine(void *arg)
 	while (philo->philo->stop != 1)
 	{
 		lock_mutex(philo);
-		printf("%ld %d has taken a fork\n", get_timestamp(), philo->id);
 		printf("%ld %d is eating\n", get_timestamp(), philo->id);
 		pthread_mutex_lock(&(philo->data_m));
 		philo->last_t_eat = get_timestamp();
 		pthread_mutex_unlock(&(philo->data_m));
-		usleep(philo->philo->t_sleep);
+		usleep(philo->philo->t_sleep + 1000000000);
 		pthread_mutex_unlock(&(philo->prev->fork));
 		pthread_mutex_unlock(&(philo->fork));
 		printf("%ld %d is sleeping\n", get_timestamp(), philo->id);
