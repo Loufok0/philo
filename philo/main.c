@@ -6,7 +6,7 @@
 /*   By: malapoug <malapoug@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 15:06:14 by malapoug          #+#    #+#             */
-/*   Updated: 2025/01/29 16:26:05 by malapoug         ###   ########.fr       */
+/*   Updated: 2025/02/09 15:36:33 by malapoug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,12 +54,17 @@ void	*monitor(void *arg)
 		while (curr)
 		{
 			current_time = get_timestamp();
+			if (!curr)
+				break;
+			pthread_mutex_lock(&(curr->data_m));
 			if (current_time - curr->last_t_eat > philo->t_die)
 			{
 				printf("%ld %d died\n", current_time, curr->id);
 				philo->stop = 1;
+				//pthread_mutex_unlock(&(curr->data_m));
 				return (NULL);
 			}
+			pthread_mutex_unlock(&(curr->data_m));
 			curr = curr->next;
 		}
 		usleep(1000);
@@ -92,7 +97,9 @@ void	*routine(void *arg)
 		lock_mutex(philo);
 		printf("%ld %d has taken a fork\n", get_timestamp(), philo->id);
 		printf("%ld %d is eating\n", get_timestamp(), philo->id);
+		pthread_mutex_lock(&(philo->data_m));
 		philo->last_t_eat = get_timestamp();
+		pthread_mutex_unlock(&(philo->data_m));
 		usleep(philo->philo->t_sleep);
 		pthread_mutex_unlock(&(philo->prev->fork));
 		pthread_mutex_unlock(&(philo->fork));
@@ -166,4 +173,5 @@ int	main(int ac, char **av)
 		if (!process(&philo))
 			return (printf(RED "ERROR\n" RED), 1);
 	}
+	return (0);
 }

@@ -6,11 +6,12 @@
 /*   By: malapoug <malapoug@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 17:01:19 by malapoug          #+#    #+#             */
-/*   Updated: 2025/01/29 16:29:26 by malapoug         ###   ########.fr       */
+/*   Updated: 2025/02/09 15:42:02 by malapoug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+#include <limits.h>
 
 int	init_philo(t_philo *philo, char **av)
 {
@@ -19,7 +20,9 @@ int	init_philo(t_philo *philo, char **av)
 	philo->t_die = ft_atolli(av[2]);
 	philo->t_eat = ft_atolli(av[3]);
 	philo->t_sleep = ft_atolli(av[4]);
-	philo->n_eat = ft_atolli(av[5]);
+	if (av[5])
+		philo->n_eat = ft_atolli(av[5]);
+	else philo->n_eat = LLONG_MAX;
 	philo->stop = 0;
 	return (1);
 }
@@ -33,8 +36,10 @@ t_philosopher	*create_philosopher(t_philo *philo, int id)
 		return (NULL);
 	philosopher->philo = philo;
 	philosopher->id = id;
-	if (pthread_mutex_init(&(philosopher->fork), NULL) != 0)
-		return (0);
+	if (pthread_mutex_init(&(philosopher->fork), NULL) != 0)//free
+		return (NULL);
+	if (pthread_mutex_init(&(philosopher->data_m), NULL) != 0)//free
+		return (NULL);
 	philosopher->next = NULL;
 	philosopher->prev = NULL;
 	philosopher->times_eaten = 0;

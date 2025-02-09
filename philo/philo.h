@@ -6,7 +6,7 @@
 /*   By: malapoug <malapoug@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 15:06:52 by malapoug          #+#    #+#             */
-/*   Updated: 2025/01/29 15:42:53 by malapoug         ###   ########.fr       */
+/*   Updated: 2025/01/31 15:11:43 by malapoug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ typedef struct s_philosopher
 	t_philo *philo;
 	int	id;
 	pthread_t	thread;
+	pthread_mutex_t		data_m;
 	pthread_mutex_t		fork;
 	struct s_philosopher	*next;
 	struct s_philosopher	*prev;
