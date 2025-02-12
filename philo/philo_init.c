@@ -6,12 +6,11 @@
 /*   By: malapoug <malapoug@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 17:01:19 by malapoug          #+#    #+#             */
-/*   Updated: 2025/02/09 15:42:02 by malapoug         ###   ########.fr       */
+/*   Updated: 2025/02/12 15:40:38 by malapoug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-#include <limits.h>
 
 int	init_philo(t_philo *philo, char **av)
 {
@@ -20,9 +19,14 @@ int	init_philo(t_philo *philo, char **av)
 	philo->t_die = ft_atolli(av[2]);
 	philo->t_eat = ft_atolli(av[3]);
 	philo->t_sleep = ft_atolli(av[4]);
+	philo->t_start = get_time();
 	if (av[5])
 		philo->n_eat = ft_atolli(av[5]);
 	else philo->n_eat = LLONG_MAX;
+	if (pthread_mutex_init(&(philo->stop_m), NULL) != 0)
+		return (0);
+	if (pthread_mutex_init(&(philo->printf), NULL) != 0)
+		return (0);
 	philo->stop = 0;
 	return (1);
 }
@@ -43,7 +47,7 @@ t_philosopher	*create_philosopher(t_philo *philo, int id)
 	philosopher->next = NULL;
 	philosopher->prev = NULL;
 	philosopher->times_eaten = 0;
-	philosopher->last_t_eat = get_timestamp();
+	philosopher->last_t_eat = get_timestamp(philo);
 	return (philosopher);
 }
 

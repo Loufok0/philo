@@ -6,7 +6,7 @@
 /*   By: malapoug <malapoug@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 15:06:52 by malapoug          #+#    #+#             */
-/*   Updated: 2025/01/31 15:11:43 by malapoug         ###   ########.fr       */
+/*   Updated: 2025/02/12 15:39:19 by malapoug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <stdlib.h>
 # include <pthread.h>
 # include <sys/time.h>
+# include <limits.h>
 # include "colors.h"
 
 //====================(STRUCTS)=============================//
@@ -31,7 +32,10 @@ typedef struct s_philo
 	unsigned long long int	t_eat;
 	unsigned long long int	t_sleep;
 	unsigned long long int	n_eat;
+	pthread_mutex_t		stop_m;
 	int			stop;
+	pthread_mutex_t		printf;
+	unsigned long long int	t_start;
 } 	t_philo;
 
 typedef struct s_philosopher
@@ -53,7 +57,12 @@ long long int	ft_atolli(const char *str);
 int	count_occ(char *str, int c);
 int	total_occ(char **split, int c);
 int	is_number(char *str);
-long	get_timestamp(void);
+long	get_timestamp(t_philo *philo);
+
+//process
+int	process(t_philo *philo);
+void	*routine(void *arg);
+long	get_time(void);
 
 //philo_init
 int	init_philo(t_philo *philos, char **av);
