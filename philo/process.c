@@ -6,7 +6,7 @@
 /*   By: malapoug <malapoug@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 15:12:41 by malapoug          #+#    #+#             */
-/*   Updated: 2025/02/12 15:52:28 by malapoug         ###   ########.fr       */
+/*   Updated: 2025/02/15 18:38:38 by malapoug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,18 +15,18 @@
 void	*monitor(void *arg)
 {
 	t_philo			*philo;
-	t_philosopher	*curr;
-	long			current_time;
+	t_philosopher		*curr;
+	long int		current_time;
 
 	philo = (t_philo *)arg;
 	while (1)
 	{
-		curr = philo->head;
+		curr = (t_philosopher *)(philo->head);
 		while (curr)
 		{
 			current_time = get_timestamp(philo);
-			if (!curr)
-				break;
+			printf("Locking mutex at %p\n", (void *)&(curr->data_m));
+			sleep(5);//here
 			pthread_mutex_lock(&(curr->data_m));
 			if (current_time - curr->last_t_eat > philo->t_die)
 			{
@@ -77,9 +77,15 @@ void	lock_mutex(t_philosopher *philo)
 	}
 	else
 	{
-		usleep(100);
-		pthread_mutex_lock(&(philo->fork));
+		usleep	(100);
 		pthread_mutex_lock(&(philo->prev->fork));
+		pthread_mutex_lock(&(philo->philo->printf));
+		printf("%ld %d has taken a fork\n", get_timestamp(philo->philo), philo->id);
+		pthread_mutex_unlock(&(philo->philo->printf));
+		pthread_mutex_lock(&(philo->fork));
+		pthread_mutex_lock(&(philo->philo->printf));
+		printf("%ld %d has taken a fork\n", get_timestamp(philo->philo), philo->id);
+		pthread_mutex_unlock(&(philo->philo->printf));
 	}
 }
 
@@ -97,6 +103,15 @@ int	join_threads(t_philo *philo, t_philosopher *head)
 	return (1);
 }
 
+void	tempo(t_philo *philo, long int t)
+{
+	long int	curr_t;
+
+	curr_t = get_timestamp(philo);
+	while (get_timestamp(philo) - curr_t < t)
+		;//printf("curr_t:%ld, start:%ld, time to wait:%ld\n", get_timestamp(philo), curr_t, t);
+}
+
 void	*routine(void *arg)
 {
 	t_philosopher	*philo;
@@ -111,13 +126,13 @@ void	*routine(void *arg)
 		pthread_mutex_lock(&(philo->data_m));
 		philo->last_t_eat = get_timestamp(philo->philo);
 		pthread_mutex_unlock(&(philo->data_m));
-		usleep(philo->philo->t_sleep);
+		tempo(philo->philo, philo->philo->t_eat);
 		pthread_mutex_unlock(&(philo->prev->fork));
 		pthread_mutex_unlock(&(philo->fork));
 		pthread_mutex_lock(&(philo->philo->printf));
 		printf("%ld %d is\033[35m sleeping\033[0m\n", get_timestamp(philo->philo), philo->id);
 		pthread_mutex_unlock(&(philo->philo->printf));
-		usleep(philo->philo->t_sleep);
+		tempo(philo->philo, philo->philo->t_sleep);
 		pthread_mutex_lock(&(philo->philo->printf));
 		printf("%ld %d is\033[33m thinking\033[0m\n", get_timestamp(philo->philo), philo->id);
 		pthread_mutex_unlock(&(philo->philo->printf));

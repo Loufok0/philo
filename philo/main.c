@@ -6,7 +6,7 @@
 /*   By: malapoug <malapoug@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 15:06:14 by malapoug          #+#    #+#             */
-/*   Updated: 2025/02/12 15:41:31 by malapoug         ###   ########.fr       */
+/*   Updated: 2025/02/15 15:42:26 by malapoug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int	main(int ac, char **av)
 		return (printf(RED "Error in init of philosophers\n" RED), 1);
 	else
 	{
-	print_philosophers(philo.head);
+		//print_philosophers(philo.head);
 		show_philo(philo);
 		if (!process(&philo))
 			return (printf(RED "ERROR\n" RED), 1);

@@ -6,7 +6,7 @@
 /*   By: malapoug <malapoug@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 17:01:19 by malapoug          #+#    #+#             */
-/*   Updated: 2025/02/12 15:40:38 by malapoug         ###   ########.fr       */
+/*   Updated: 2025/02/15 17:07:06 by malapoug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ t_philosopher	*create_philosopher(t_philo *philo, int id)
 		return (NULL);
 	if (pthread_mutex_init(&(philosopher->data_m), NULL) != 0)//free
 		return (NULL);
+	printf("init mutex at %p\n", (void *)&(philosopher->data_m));
 	philosopher->next = NULL;
 	philosopher->prev = NULL;
 	philosopher->times_eaten = 0;

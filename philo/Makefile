@@ -6,7 +6,7 @@
 #    By: malapoug <malapoug@student.42lausanne.ch>  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/09 00:28:46 by malapoug          #+#    #+#              #
-#    Updated: 2025/02/12 15:13:40 by malapoug         ###   ########.fr        #
+#    Updated: 2025/02/15 16:18:14 by malapoug         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,7 @@ CC = cc
 DEBUGA = -fsanitize=address
 DEBUGP = -fsanitize=thread
 
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror #-std=gnu99
 
 SRCS =	main.c\
 	process.c\
