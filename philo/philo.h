@@ -6,7 +6,7 @@
 /*   By: malapoug <malapoug@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 15:06:52 by malapoug          #+#    #+#             */
-/*   Updated: 2025/02/12 15:39:19 by malapoug         ###   ########.fr       */
+/*   Updated: 2025/02/16 12:32:40 by malapoug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,12 @@
 
 //====================(STRUCTS)=============================//
 
+typedef struct s_philosopher t_philosopher;
+
 typedef struct s_philo
 {
 	pthread_t	monitor;
-	void	*head;
+	t_philosopher	*head;
 	unsigned int	n_philo;
 	unsigned long long int	t_die;
 	unsigned long long int	t_eat;

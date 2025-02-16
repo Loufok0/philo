@@ -6,7 +6,7 @@
 /*   By: malapoug <malapoug@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 17:01:19 by malapoug          #+#    #+#             */
-/*   Updated: 2025/02/15 17:07:06 by malapoug         ###   ########.fr       */
+/*   Updated: 2025/02/16 12:58:48 by malapoug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ t_philosopher	*create_philosopher(t_philo *philo, int id)
 		return (NULL);
 	if (pthread_mutex_init(&(philosopher->data_m), NULL) != 0)//free
 		return (NULL);
-	printf("init mutex at %p\n", (void *)&(philosopher->data_m));
 	philosopher->next = NULL;
 	philosopher->prev = NULL;
 	philosopher->times_eaten = 0;
@@ -55,15 +54,14 @@ t_philosopher	*create_philosopher(t_philo *philo, int id)
 int	init_philosophers(t_philo *philo)
 {
 	unsigned int	i;
-	t_philosopher	*head;
 	t_philosopher	*curr;
 	t_philosopher	*prev;
 
 	prev = NULL;
-	curr = create_philosopher(philo, 1);
-	if (!curr)
+	philo->head = create_philosopher(philo, 1);
+	if (!philo->head)
 		return (0);
-	head = curr;
+	curr = philo->head;
 	i = 2;
 	while (i <= philo->n_philo)
 	{
@@ -78,7 +76,6 @@ int	init_philosophers(t_philo *philo)
 		i++;
 	}
 	curr->prev = prev;
-	head->prev = curr;
-	philo->head = head;
+	philo->head->prev = curr;
 	return (1);
 }
