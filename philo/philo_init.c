@@ -6,7 +6,7 @@
 /*   By: malapoug <malapoug@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 17:01:19 by malapoug          #+#    #+#             */
-/*   Updated: 2025/02/16 12:58:48 by malapoug         ###   ########.fr       */
+/*   Updated: 2025/02/16 15:53:02 by malapoug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ int	init_philosophers(t_philo *philo)
 		i++;
 	}
 	curr->prev = prev;
-	philo->head->prev = curr;
+	if (philo->n_philo > 1)
+		philo->head->prev = curr;
 	return (1);
 }

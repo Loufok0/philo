@@ -6,7 +6,7 @@
 /*   By: malapoug <malapoug@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 15:06:52 by malapoug          #+#    #+#             */
-/*   Updated: 2025/02/16 12:32:40 by malapoug         ###   ########.fr       */
+/*   Updated: 2025/02/16 14:56:07 by malapoug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ typedef struct s_philosopher
 	pthread_mutex_t		fork;
 	struct s_philosopher	*next;
 	struct s_philosopher	*prev;
-	long long int	times_eaten;
+	unsigned long long int	times_eaten;
 	unsigned long long int	last_t_eat;
 } 	t_philosopher;
 

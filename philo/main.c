@@ -6,17 +6,18 @@
 /*   By: malapoug <malapoug@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 15:06:14 by malapoug          #+#    #+#             */
-/*   Updated: 2025/02/16 13:27:25 by malapoug         ###   ########.fr       */
+/*   Updated: 2025/02/16 16:05:31 by malapoug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	usage(void)
+int	usage(void)
 {
 	printf(BOLD BLUE "Usage: ./philo    number_of_philosophers    \
 	time_to_die time_to_eat    time_to_sleep    \
 	[number_of_times_each_philosopher_must_eat] \n\n" RESET);
+	return (1);
 }
 
 int	check(char **av)
@@ -52,18 +53,20 @@ int	main(int ac, char **av)
 	t_philo	philo;
 	if (!(ac >= 5 && ac <= 6))
 		return (usage(), 1);
+	else if (ft_atolli(av[1]) == 0)
+		return (printf(YELLOW "No one is here... 👀\n" RESET), usage());
 	else if (!check(av))
-		return (printf(RED "Error in args\n" RED), 1);
+		return (printf(RED "Error in args\n" RESET), 1);
 	else if (!init_philo(&philo, av))
-		return (printf(RED "Error in init of principal struct\n" RED), 1);
+		return (printf(RED "Error in init of principal struct\n" RESET), 1);
 	else if (!init_philosophers(&philo))
-		return (printf(RED "Error in init of philosophers\n" RED), 1);
+		return (printf(RED "Error in init of philosophers\n" RESET), 1);
 	else
 	{
 		print_philosophers(philo.head);
 		//show_philo(philo);
 		if (!process(&philo))
-			return (printf(RED "ERROR\n" RED), 1);
+			return (printf(RED "ERROR\n" RESET), 1);
 	}
 	return (0);
 }
