@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   process.c                                          :+:      :+:    :+:   */
+/*   process.c                                           :+:    :+:           */
 /*                                                    +:+ +:+         +:+     */
 /*   By: malapoug <malapoug@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 15:12:41 by malapoug          #+#    #+#             */
-/*   Updated: 2025/02/16 15:58:07 by malapoug         ###   ########.fr       */
+/*   Updated: 2025/02/17 19:13:35 by malapoug       ########   odam.nl        */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,15 +58,20 @@ void	*monitor(void *arg)
 	}
 	return (NULL);
 }
-/*
 
- */
+void	tempo(t_philo *philo, long int t)
+{
+	long int	curr_t;
+
+	curr_t = get_timestamp(philo);
+	while (get_timestamp(philo) - curr_t < t)
+		;
+}
 
 int	create_threads(t_philo *philo, t_philosopher *head)
 {
 	if (pthread_create(&(philo->monitor), NULL, monitor, philo) != 0)
 			return (printf(RED "Error: monitor's pthread_create failed!\n" RESET), 0);
-
 	while (head)
 	{
 		if (pthread_create(&(head->thread), NULL, routine, head) != 0)
@@ -81,8 +86,6 @@ int	lock_mutex(t_philosopher *philo)
 	int	n_forks;
 
 	n_forks = 0;
-	if (philo->id % 2 == 0)
-		usleep	(100);
 	if (philo->prev)
 	{
 		pthread_mutex_lock(&(philo->prev->fork));
@@ -119,25 +122,17 @@ int	check_stop(t_philo *philo)
 	return (1);
 }
 
-void	tempo(t_philo *philo, long int t)
-{
-	long int	curr_t;
-
-	curr_t = get_timestamp(philo);
-	while (get_timestamp(philo) - curr_t < t)
-		;
-}
-
 void	*routine(void *arg)
 {
 	t_philosopher	*philo;
 
 	philo = (t_philosopher *)arg;
+	if (philo->id % 2 == 0)
+		tempo(philo->philo, 1);
 	while (philo->philo->stop != 1)
 	{
 		if (lock_mutex(philo) != 2)
 			break ;
-
 		pthread_mutex_lock(&(philo->philo->printf));
 		printf("%ld\tPhilosopher %d \tis \033[32meating\033[0m his meal n°%lld\n", get_timestamp(philo->philo), philo->id, philo->times_eaten + 1);
 		pthread_mutex_unlock(&(philo->philo->printf));
