@@ -1,17 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   debug.c                                            :+:      :+:    :+:   */
+/*   debug.c                                             :+:    :+:           */
 /*                                                    +:+ +:+         +:+     */
 /*   By: malapoug <malapoug@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 14:47:11 by malapoug          #+#    #+#             */
-/*   Updated: 2025/02/16 12:45:52 by malapoug         ###   ########.fr       */
+/*   Updated: 2025/02/18 15:55:13 by malapoug       ########   odam.nl        */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-
 
 void	show_philo(t_philo philo)
 {
@@ -23,11 +22,12 @@ void	show_philo(t_philo philo)
 	printf("|nbr of times philos eat to end:\t%lld\t|\n", philo.n_eat);
 	printf("o-----------------------------------------------o\n");
 }
-
+/*
 void	print_philosophers(t_philosopher *head)
 {
-	t_philosopher	*curr = head;
+	t_philosopher	*curr;
 
+	curr = head;
 	printf("Philosophers list:\n");
 	do
 	{
@@ -38,3 +38,4 @@ void	print_philosophers(t_philosopher *head)
 		curr = curr->next;
 	} while (curr && curr != head);
 }
+*/

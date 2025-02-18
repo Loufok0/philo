@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo_init.c                                       :+:      :+:    :+:   */
+/*   philo_init.c                                        :+:    :+:           */
 /*                                                    +:+ +:+         +:+     */
 /*   By: malapoug <malapoug@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 17:01:19 by malapoug          #+#    #+#             */
-/*   Updated: 2025/02/16 15:53:02 by malapoug         ###   ########.fr       */
+/*   Updated: 2025/02/18 15:58:29 by malapoug       ########   odam.nl        */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ int	init_philo(t_philo *philo, char **av)
 	philo->t_start = get_time();
 	if (av[5])
 		philo->n_eat = ft_atolli(av[5]);
-	else philo->n_eat = LLONG_MAX;
+	else
+		philo->n_eat = LLONG_MAX;
 	if (pthread_mutex_init(&(philo->stop_m), NULL) != 0)
 		return (0);
 	if (pthread_mutex_init(&(philo->printf), NULL) != 0)

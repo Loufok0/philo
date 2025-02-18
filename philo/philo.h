@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo.h                                            :+:      :+:    :+:   */
+/*   philo.h                                             :+:    :+:           */
 /*                                                    +:+ +:+         +:+     */
 /*   By: malapoug <malapoug@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 15:06:52 by malapoug          #+#    #+#             */
-/*   Updated: 2025/02/16 14:56:07 by malapoug         ###   ########.fr       */
+/*   Updated: 2025/02/18 16:04:42 by malapoug       ########   odam.nl        */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,13 @@
 
 //====================(STRUCTS)=============================//
 
-typedef struct s_philosopher t_philosopher;
+typedef struct s_philosopher	t_philosopher;
 
 typedef struct s_philo
 {
-	pthread_t	monitor;
-	t_philosopher	*head;
-	unsigned int	n_philo;
+	pthread_t		monitor;
+	t_philosopher		*head;
+	unsigned int		n_philo;
 	unsigned long long int	t_die;
 	unsigned long long int	t_eat;
 	unsigned long long int	t_sleep;
@@ -54,6 +54,15 @@ typedef struct s_philosopher
 } 	t_philosopher;
 
 //====================(DECLARATIONS)========================//
+
+//philo_utils
+
+void	tempo(t_philo *philo, long int t);
+void	tell(char *str, t_philo *philo, int id, long long int n_eat);
+int	create_threads(t_philo *philo, t_philosopher *head);
+int	lock_mutex(t_philosopher *philo);
+int	join_threads(t_philo *philo, t_philosopher *head);
+
 //utils
 long long int	ft_atolli(const char *str);
 int	count_occ(char *str, int c);
@@ -63,6 +72,7 @@ long	get_timestamp(t_philo *philo);
 
 //process
 int	process(t_philo *philo);
+void	*monitor(void *arg);
 void	*routine(void *arg);
 long	get_time(void);
 

@@ -1,12 +1,12 @@
 # **************************************************************************** #
 #                                                                              #
 #                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
+#    Makefile                                            :+:    :+:            #
 #                                                     +:+ +:+         +:+      #
 #    By: malapoug <malapoug@student.42lausanne.ch>  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/09 00:28:46 by malapoug          #+#    #+#              #
-#    Updated: 2025/02/15 16:18:14 by malapoug         ###   ########.fr        #
+#    Updated: 2025/02/18 15:49:44 by malapoug       ########   odam.nl         #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,6 +22,7 @@ CFLAGS = -Wall -Wextra -Werror #-std=gnu99
 SRCS =	main.c\
 	process.c\
 	philo_init.c\
+	philo_utils.c\
 	utils/ft_atoi.c\
 	utils/is_number.c\
 	utils/count_occ.c\

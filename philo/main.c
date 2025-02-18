@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   main.c                                              :+:    :+:           */
 /*                                                    +:+ +:+         +:+     */
 /*   By: malapoug <malapoug@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 15:06:14 by malapoug          #+#    #+#             */
-/*   Updated: 2025/02/16 16:05:31 by malapoug         ###   ########.fr       */
+/*   Updated: 2025/02/18 15:56:02 by malapoug       ########   odam.nl        */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,13 +44,13 @@ long	get_time(void)
 
 long	get_timestamp(t_philo *philo)
 {
-
 	return (get_time() - philo->t_start);
 }
 
 int	main(int ac, char **av)
 {
 	t_philo	philo;
+
 	if (!(ac >= 5 && ac <= 6))
 		return (usage(), 1);
 	else if (ft_atolli(av[1]) == 0)
@@ -63,8 +63,6 @@ int	main(int ac, char **av)
 		return (printf(RED "Error in init of philosophers\n" RESET), 1);
 	else
 	{
-		print_philosophers(philo.head);
-		//show_philo(philo);
 		if (!process(&philo))
 			return (printf(RED "ERROR\n" RESET), 1);
 	}
