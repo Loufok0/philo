@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   process.c                                           :+:    :+:           */
+/*   process.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: malapoug <malapoug@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 15:12:41 by malapoug          #+#    #+#             */
-/*   Updated: 2025/02/18 16:02:53 by malapoug       ########   odam.nl        */
+/*   Updated: 2025/02/19 15:04:47 by malapoug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,36 +55,65 @@ void	*monitor(void *arg)
 	return (NULL);
 }
 
+inline int check_stop(t_philo *philo)
+{
+	pthread_mutex_lock(&(philo->stop_m));
+	if (philo->stop == 1)
+	{
+		pthread_mutex_unlock(&(philo->stop_m));
+		return (1);
+	}
+	pthread_mutex_unlock(&(philo->stop_m));
+	return (0);
+}
+
+int	actions(t_philosopher *philo)
+{
+		if (check_stop(philo->philo))
+			return (0);
+		if (lock_mutex(philo) != 2)//check stop
+			return (0);
+		tell("%ld\tPhilosopher %d \tis \033[32meating\033[0m his meal n°%lld\n", philo->philo, philo->id, philo->times_eaten + 1);
+		if (check_stop(philo->philo))
+		{
+			pthread_mutex_unlock(&(philo->fork));
+			pthread_mutex_unlock(&(philo->prev->fork));
+			return (0);
+		}
+		pthread_mutex_lock(&(philo->data_m));
+		philo->last_t_eat = get_timestamp(philo->philo);
+		philo->times_eaten++;
+		pthread_mutex_unlock(&(philo->data_m));
+		tempo(philo->philo, philo->philo->t_eat);
+		pthread_mutex_unlock(&(philo->fork));
+		if (philo->prev)
+			pthread_mutex_unlock(&(philo->prev->fork));
+		if (check_stop(philo->philo))
+			return (0);
+		tell("%ld\tPhilosopher %d \tis \033[35msleeping\033[0m\n", philo->philo, philo->id, -1);
+		tempo(philo->philo, philo->philo->t_sleep);
+		if (check_stop(philo->philo))
+			return (0);
+		tell("%ld\tPhilosopher %d \tis \033[33mthinking\033[0m\n", philo->philo, philo->id, -1);
+		return (1);
+}
+
 void	*routine(void *arg)
 {
 	t_philosopher	*philo;
 
 	philo = (t_philosopher *)arg;
-	if (philo->id % 2 == 0)
+	if (philo->id % 2)
 		tempo(philo->philo, 1);
 	pthread_mutex_lock(&(philo->philo->stop_m));
 	while (philo->philo->stop != 1)
 	{
 		pthread_mutex_unlock(&(philo->philo->stop_m));
-		if (lock_mutex(philo) != 2)
+		if (!actions(philo))
+		{
+			pthread_mutex_lock(&(philo->philo->stop_m));
 			break ;
-		tell("%ld\tPhilosopher %d \tis \033[32meating\033[0m his meal n°%lld\n", philo->philo, philo->id, philo->times_eaten + 1);
-
-		pthread_mutex_lock(&(philo->data_m));
-		philo->last_t_eat = get_timestamp(philo->philo);
-		philo->times_eaten++;
-		pthread_mutex_unlock(&(philo->data_m));
-
-		tempo(philo->philo, philo->philo->t_eat);
-		if (philo->prev)
-			pthread_mutex_unlock(&(philo->prev->fork));
-		pthread_mutex_unlock(&(philo->fork));
-
-		tell("%ld\tPhilosopher %d \tis \033[35msleeping\033[0m\n", philo->philo, philo->id, -1);
-
-		tempo(philo->philo, philo->philo->t_sleep);
-
-		tell("%ld\tPhilosopher %d \tis \033[33mthinking\033[0m\n", philo->philo, philo->id, -1);
+		}
 		pthread_mutex_lock(&(philo->philo->stop_m));
 	}
 	return (NULL);
@@ -99,6 +128,7 @@ int	process(t_philo *philo)
 		return (0);
 	if (!join_threads(philo, curr))
 		return (0);
+	clear_head(philo->head);
 	while (curr)
 	{
 		pthread_mutex_destroy(&(curr->fork));

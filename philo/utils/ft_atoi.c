@@ -6,7 +6,7 @@
 /*   By: malapoug <malapoug@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 17:49:52 by malapoug          #+#    #+#             */
-/*   Updated: 2025/01/27 17:07:43 by malapoug         ###   ########.fr       */
+/*   Updated: 2025/02/19 13:24:32 by malapoug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 long long int	ft_atolli(const char *str)
 {
-	int	signe;
+	int				signe;
 	long long int	res;
 
 	if (str == NULL)
