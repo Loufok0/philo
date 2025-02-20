@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo_init.c                                        :+:    :+:           */
+/*   philo_init.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: malapoug <malapoug@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 17:01:19 by malapoug          #+#    #+#             */
-/*   Updated: 2025/02/18 15:58:29 by malapoug       ########   odam.nl        */
+/*   Updated: 2025/02/20 01:08:37 by malapoug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,10 @@ t_philosopher	*create_philosopher(t_philo *philo, int id)
 		return (NULL);
 	philosopher->philo = philo;
 	philosopher->id = id;
-	if (pthread_mutex_init(&(philosopher->fork), NULL) != 0)//free
-		return (NULL);
-	if (pthread_mutex_init(&(philosopher->data_m), NULL) != 0)//free
-		return (NULL);
+	if (pthread_mutex_init(&(philosopher->fork), NULL) != 0)
+		return (free(philosopher), NULL);
+	if (pthread_mutex_init(&(philosopher->data_m), NULL) != 0)
+		return (free(philosopher), NULL);
 	philosopher->next = NULL;
 	philosopher->prev = NULL;
 	philosopher->times_eaten = 0;
@@ -72,7 +72,7 @@ int	init_philosophers(t_philo *philo)
 		prev = curr;
 		curr->next = create_philosopher(philo, i);
 		if (!curr->next)
-			return (0);//free philo
+			return (clear_head(philo->head), 0);
 		curr = curr->next;
 		i++;
 	}

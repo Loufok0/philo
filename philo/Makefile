@@ -6,7 +6,7 @@
 #    By: malapoug <malapoug@student.42lausanne.ch>  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/09 00:28:46 by malapoug          #+#    #+#              #
-#    Updated: 2025/02/19 13:36:10 by malapoug         ###   ########.fr        #
+#    Updated: 2025/02/19 21:30:33 by malapoug         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,12 +37,12 @@ RM = rm -f
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	@$(CC) $(CFLAGS) $(OBJS) -o $(NAME) -lpthread
+	@$(CC) $(CFLAGS) $(OBJS) -o $(NAME) -pthread
 	@echo $(NAME)" compiled!\n"
 
 debug: $(OBJS)
-	@$(CC) $(CFLAGS) $(DEBUGA) $(OBJS) -o debugAddress -lpthread
-	@$(CC) $(CFLAGS) $(DEBUGP) $(OBJS) -o debugPthread -lpthread
+	@$(CC) $(CFLAGS) $(DEBUGA) $(OBJS) -o debugAddress -pthread
+	@$(CC) $(CFLAGS) $(DEBUGP) $(OBJS) -o debugPthread -pthread
 	@echo $(NAME)" compiled debug with address and pthread!\n"
 
 %.o: %.c

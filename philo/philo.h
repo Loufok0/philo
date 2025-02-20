@@ -6,7 +6,7 @@
 /*   By: malapoug <malapoug@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 15:06:52 by malapoug          #+#    #+#             */
-/*   Updated: 2025/02/19 15:01:52 by malapoug         ###   ########.fr       */
+/*   Updated: 2025/02/20 01:03:21 by malapoug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,14 +75,14 @@ int				process(t_philo *philo);
 void			*monitor(void *arg);
 void			*routine(void *arg);
 long			get_time(void);
-int		check_stop(t_philo *philo);
+int				check_stop(t_philo *philo);
 
 //philo_init
 int				init_philo(t_philo *philos, char **av);
 int				init_philosophers(t_philo *philo);
 
 //philo_clear
-void	clear_head(t_philosopher *head);
+void			clear_head(t_philosopher *head);
 
 //debug
 void			show_philo(t_philo philo);
