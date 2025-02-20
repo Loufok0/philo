@@ -6,7 +6,7 @@
 /*   By: malapoug <malapoug@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 15:12:41 by malapoug          #+#    #+#             */
-/*   Updated: 2025/02/20 01:12:26 by malapoug         ###   ########.fr       */
+/*   Updated: 2025/02/20 01:17:55 by malapoug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,3 +122,5 @@ int	process(t_philo *philo)
 	clear_head(philo->head);
 	return (1);
 }
+
+//ATTENTION A VALGRIND /!\ (and fuch there is an backslash n error...)
