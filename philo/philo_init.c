@@ -6,7 +6,7 @@
 /*   By: malapoug <malapoug@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 17:01:19 by malapoug          #+#    #+#             */
-/*   Updated: 2025/02/20 01:08:37 by malapoug         ###   ########.fr       */
+/*   Updated: 2025/02/21 00:50:15 by malapoug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,8 @@ int	init_philosophers(t_philo *philo)
 	if (!philo->head)
 		return (0);
 	curr = philo->head;
-	i = 2;
-	while (i <= philo->n_philo)
+	i = 1;
+	while (++i <= philo->n_philo)
 	{
 		if (prev)
 			prev->next = curr;
@@ -74,7 +74,6 @@ int	init_philosophers(t_philo *philo)
 		if (!curr->next)
 			return (clear_head(philo->head), 0);
 		curr = curr->next;
-		i++;
 	}
 	curr->prev = prev;
 	if (philo->n_philo > 1)

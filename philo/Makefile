@@ -6,7 +6,7 @@
 #    By: malapoug <malapoug@student.42lausanne.ch>  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/09 00:28:46 by malapoug          #+#    #+#              #
-#    Updated: 2025/02/19 21:30:33 by malapoug         ###   ########.fr        #
+#    Updated: 2025/02/21 01:37:18 by malapoug         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,6 +24,7 @@ SRCS =	main.c\
 	philo_init.c\
 	philo_clear.c\
 	philo_utils.c\
+	philo_utils2.c\
 	utils/ft_atoi.c\
 	utils/is_number.c\
 	utils/count_occ.c\

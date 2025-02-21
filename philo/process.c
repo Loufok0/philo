@@ -6,7 +6,7 @@
 /*   By: malapoug <malapoug@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 15:12:41 by malapoug          #+#    #+#             */
-/*   Updated: 2025/02/20 01:17:55 by malapoug         ###   ########.fr       */
+/*   Updated: 2025/02/21 01:41:06 by malapoug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,9 +69,7 @@ int	check_stop(t_philo *philo)
 
 int	actions(t_philosopher *philo)
 {
-	if (check_stop(philo->philo))
-		return (0);
-	if (lock_mutex(philo) != 2)
+	if (check_stop(philo->philo) || lock_mutex(philo) != 2)
 		return (0);
 	tell("%ld\tPhilosopher %d \tis \033[32meating\033[0m his meal n°%lld\n", philo->philo, philo->id, philo->times_eaten + 1);
 	if (check_stop(philo->philo))
