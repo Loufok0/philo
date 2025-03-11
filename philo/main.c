@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                              :+:    :+:           */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: malapoug <malapoug@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 15:06:14 by malapoug          #+#    #+#             */
-/*   Updated: 2025/02/18 15:56:02 by malapoug       ########   odam.nl        */
+/*   Updated: 2025/03/11 11:27:28 by malapoug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	usage(void)
 {
-	printf(BOLD BLUE "Usage: ./philo    number_of_philosophers    \
+	printf(BOLD BLUE "Usage: ./philo    number_of_philosophers (0 - 200)    \
 	time_to_die time_to_eat    time_to_sleep    \
 	[number_of_times_each_philosopher_must_eat] \n\n" RESET);
 	return (1);
@@ -55,6 +55,9 @@ int	main(int ac, char **av)
 		return (usage(), 1);
 	else if (ft_atolli(av[1]) == 0)
 		return (printf(YELLOW "No one is here... 👀\n" RESET), usage());
+	else if (ft_atolli(av[1]) > 200 || ft_atolli(av[1]) == -1)
+		return (printf(YELLOW \
+			"Too much people in there... 👀\n" RESET), usage());
 	else if (!check(av))
 		return (printf(RED "Error in args\n" RESET), 1);
 	else if (!init_philo(&philo, av))

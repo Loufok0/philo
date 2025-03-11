@@ -6,7 +6,7 @@
 /*   By: malapoug <malapoug@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 18:00:28 by malapoug          #+#    #+#             */
-/*   Updated: 2025/02/21 18:02:31 by malapoug         ###   ########.fr       */
+/*   Updated: 2025/03/08 20:29:53 by malapoug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ void	*monitor(void *arg)
 	int					eaten;
 
 	philo = (t_philo *)arg;
+	tempo(philo, philo->t_die);
 	while (1)
 	{
 		eaten = 1;

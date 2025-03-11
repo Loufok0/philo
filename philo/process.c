@@ -6,7 +6,7 @@
 /*   By: malapoug <malapoug@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 15:12:41 by malapoug          #+#    #+#             */
-/*   Updated: 2025/02/21 18:00:20 by malapoug         ###   ########.fr       */
+/*   Updated: 2025/03/11 11:46:36 by malapoug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,27 +34,17 @@ void	update_data(t_philosopher *philo)
 
 int	actions(t_philosopher *philo)
 {
-	if (check_stop(philo->philo) || lock_mutex(philo) != 2)
+	if (lock_mutex(philo) != 2)
 		return (0);
 	tell("%ld\tPhilosopher %d \tis \033[32meating\033[0m his meal n°%lld\n"\
 		, philo->philo, philo->id, philo->times_eaten + 1);
-	if (check_stop(philo->philo))
-	{
-		pthread_mutex_unlock(&(philo->fork));
-		pthread_mutex_unlock(&(philo->prev->fork));
-		return (0);
-	}
 	update_data(philo);
 	tempo(philo->philo, philo->philo->t_eat);
 	pthread_mutex_unlock(&(philo->fork));
 	pthread_mutex_unlock(&(philo->prev->fork));
-	if (check_stop(philo->philo))
-		return (0);
 	tell("%ld\tPhilosopher %d \tis \033[35msleeping\033[0m\n"\
 		, philo->philo, philo->id, -1);
 	tempo(philo->philo, philo->philo->t_sleep);
-	if (check_stop(philo->philo))
-		return (0);
 	tell("%ld\tPhilosopher %d \tis \033[33mthinking\033[0m\n"\
 		, philo->philo, philo->id, -1);
 	return (1);
@@ -85,5 +75,3 @@ int	process(t_philo *philo)
 	clear_head(philo->head);
 	return (1);
 }
-
-//ATTENTION A VALGRIND /!\ (and fuch there is an backslash n error...)

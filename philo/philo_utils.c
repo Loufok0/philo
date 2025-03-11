@@ -6,7 +6,7 @@
 /*   By: malapoug <malapoug@student.42lausanne         +#+                    */
 /*                                                    +#+                     */
 /*   Created: 2025/02/18 15:41:00 by malapoug       #+#    #+#                */
-/*   Updated: 2025/02/21 01:37:02 by malapoug         ###   ########.fr       */
+/*   Updated: 2025/03/11 11:23:46 by malapoug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,13 @@
 
 int	create_threads(t_philo *philo, t_philosopher *head)
 {
+	unsigned int	i;
+
+	i = -1;
 	if (pthread_create(&(philo->monitor), NULL, monitor, philo) != 0)
 		return (printf(RED "Error: monitor's pthread_create failed!\n"\
 			RESET), 0);
-	while (head)
+	while (++i < philo->n_philo)
 	{
 		if (pthread_create(&(head->thread), NULL, routine, head) != 0)
 			return (printf(RED "Error: pthread_create failed!\n" RESET), 0);
@@ -73,14 +76,17 @@ int	lock_mutex(t_philosopher *philo)
 
 int	join_threads(t_philo *philo, t_philosopher *head)
 {
-	if (pthread_join(philo->monitor, NULL) != 0)
-		return (printf(RED "Error: monitor's pthread_join failed!\n"\
-			RESET), 0);
-	while (head)
+	unsigned int	i;
+
+	i = -1;
+	while (++i < philo->n_philo)
 	{
 		if (pthread_join(head->thread, NULL) != 0)
 			return (printf(RED "Error: pthread_join failed!\n" RESET), 0);
 		head = head->next;
 	}
+	if (pthread_join(philo->monitor, NULL) != 0)
+		return (printf(RED "Error: monitor's pthread_join failed!\n"\
+			RESET), 0);
 	return (1);
 }
