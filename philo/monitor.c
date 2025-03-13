@@ -6,7 +6,7 @@
 /*   By: malapoug <malapoug@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 18:00:28 by malapoug          #+#    #+#             */
-/*   Updated: 2025/03/08 20:29:53 by malapoug         ###   ########.fr       */
+/*   Updated: 2025/03/13 14:18:06 by malapoug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ int	loop_check(t_philo *philo, int *eaten)
 		pthread_mutex_lock(&(curr->data_m));
 		if (current_time - curr->last_t_eat > philo->t_die)
 		{
+			pthread_mutex_unlock(&(curr->data_m));
 			tell("%ld\tPhilosopher %d \t\033[31mdied\033[0m\n"\
 				, philo, curr->id, -1);
 			pthread_mutex_lock(&(philo->stop_m));
