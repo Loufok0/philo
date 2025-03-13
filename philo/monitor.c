@@ -6,7 +6,7 @@
 /*   By: malapoug <malapoug@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 18:00:28 by malapoug          #+#    #+#             */
-/*   Updated: 2025/03/13 14:18:06 by malapoug         ###   ########.fr       */
+/*   Updated: 2025/03/13 14:32:30 by malapoug         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ int	loop_check(t_philo *philo, int *eaten)
 			pthread_mutex_lock(&(philo->stop_m));
 			philo->stop = 1;
 			pthread_mutex_unlock(&(philo->stop_m));
-			pthread_mutex_unlock(&(curr->data_m));
 			return (0);
 		}
 		if (curr->times_eaten < philo->n_eat)
